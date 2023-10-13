@@ -6,7 +6,7 @@
 struct GitConfiguration checkIfConfigExists(FILE *file, char* configName);
 
 void useGitConfiguration(char* configName) {
-    FILE *file = readFile(CONFIG_FILE_PATH);
+    FILE *file = readFile(CONFIG_FILE_NAME);
 
     struct GitConfiguration config = checkIfConfigExists(file, configName);
 
@@ -16,6 +16,9 @@ void useGitConfiguration(char* configName) {
         printf("Configuration not found!\n");
         return;
     }
+
+    char *GIT_CONFIG_PATH = getGitConfigFilePath();
+    char *GIT_CREDENTIALS_PATH = getGitCredentialsFilePath();
     
     remove(GIT_CONFIG_PATH);
     remove(GIT_CREDENTIALS_PATH);

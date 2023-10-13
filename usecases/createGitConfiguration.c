@@ -4,7 +4,7 @@
 #include "../environment.h"
 
 void createGitConfiguration(struct GitConfiguration config) {
-    FILE *file = fopen(CONFIG_FILE_PATH, "a");
+    FILE *file = fopen(CONFIG_FILE_NAME, "a");
 
     if (file == NULL) {
         perror("Error when open file!");
@@ -15,5 +15,5 @@ void createGitConfiguration(struct GitConfiguration config) {
 
     fclose(file);
 
-    printf("\nConfiguration saved in file '%s'\n\n", CONFIG_FILE_PATH);
+    printf("\nConfiguration saved in file '%s'\n\n", CONFIG_FILE_NAME);
 }

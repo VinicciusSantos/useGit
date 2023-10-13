@@ -5,7 +5,7 @@
 int main(int argc, char **argv) {
     createFolderIfNotExists(FOLDER_PATH);
 
-    if (argc) {
+    if (argc > 1) {
         controllersFactory(CLI_CONTROLLER, argv);
     } else {
         controllersFactory(UI_CLI_CONTROLLER, argv);

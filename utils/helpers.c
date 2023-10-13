@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helpers.h"
+#include "environment.h"
 
 void clearScreen() {
     system("clear");
@@ -77,4 +78,18 @@ int buildMenu(char *title, struct MenuOption options[], int count) {
     scanf("%d", &option);
 
     return option;
+}
+
+char *getGitConfigFilePath() {
+    char configFilePath[100];
+    char *username = getenv("USER");
+    sprintf(configFilePath, "/home/%s/%s", username, ".gitconfig");
+    return configFilePath;
+}
+
+char *getGitCredentialsFilePath() {
+    char filePath[100];
+    char *username = getenv("USER");
+    sprintf(filePath, "/home/%s/%s", username, ".git-credentials");
+    return filePath;
 }

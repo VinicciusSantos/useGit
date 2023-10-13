@@ -4,7 +4,7 @@
 #include "../environment.h"
 
 struct GitConfiguration *listGitConfigurations() {
-    FILE *file = fopen(CONFIG_FILE_PATH, "r");
+    FILE *file = fopen(CONFIG_FILE_NAME, "r");
     if (file == NULL) {
         printf("Error opening the file.\n");
         return NULL;
