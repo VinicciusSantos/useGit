@@ -7,5 +7,12 @@ include_directories(.)
 
 add_executable(use_git
         main.c
-        utils.c
-        utils.h)
+        usecases/listGitConfigurations.c
+        usecases/createGitConfiguration.c
+        usecases/useGitConfiguration.c
+        domain/entities.h
+        utils/helpers.c
+        utils/helpers.h
+        environment.h
+        environment.h
+        domain/usecases.h)

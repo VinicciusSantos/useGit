@@ -4,9 +4,3 @@ struct GitConfiguration {
     char email[100];
     char token[200];
 };
-
-void listGitConfigurations();
-
-void createGitConfiguration();
-
-void useGitConfiguration();
