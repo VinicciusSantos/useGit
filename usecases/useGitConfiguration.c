@@ -1,11 +1,12 @@
 #include <string.h>
+#include <stdlib.h>
 #include "../domain/entities.h"
 #include "../utils/helpers.h"
 #include "../environment.h"
 
-struct GitConfiguration checkIfConfigExists(FILE *file, char* configName);
+struct GitConfiguration checkIfConfigExists(FILE *file, char *configName);
 
-void useGitConfiguration(char* configName) {
+void useGitConfiguration(char *configName) {
     FILE *file = readFile(CONFIG_FILE_NAME);
 
     struct GitConfiguration config = checkIfConfigExists(file, configName);
@@ -17,9 +18,13 @@ void useGitConfiguration(char* configName) {
         return;
     }
 
-    char *GIT_CONFIG_PATH = getGitConfigFilePath();
-    char *GIT_CREDENTIALS_PATH = getGitCredentialsFilePath();
-    
+    char GIT_CONFIG_PATH[100];
+    char GIT_CREDENTIALS_PATH[100];
+
+    char *username = getenv("SUDO_USER");
+    sprintf(GIT_CONFIG_PATH, "/home/%s/.gitconfig", username);
+    sprintf(GIT_CREDENTIALS_PATH, "/home/%s/.git-credentials", username);
+
     remove(GIT_CONFIG_PATH);
     remove(GIT_CREDENTIALS_PATH);
 
@@ -45,7 +50,7 @@ void useGitConfiguration(char* configName) {
     printf("Configuration applied in files '.gitconfig' e '.git-credentials'\n");
 }
 
-struct GitConfiguration checkIfConfigExists(FILE *file, char* configName) {
+struct GitConfiguration checkIfConfigExists(FILE *file, char *configName) {
     struct GitConfiguration config;
 
     while (fscanf(file, "%99[^,],%99[^,],%99[^,],%199[^\n]\n",

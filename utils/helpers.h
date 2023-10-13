@@ -27,8 +27,4 @@ void printHeader(char *title, int size);
 
 int buildMenu(char *title, struct MenuOption options[], int count);
 
-char *getGitConfigFilePath();
-
-char *getGitCredentialsFilePath();
-
 #endif
