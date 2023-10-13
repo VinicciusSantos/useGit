@@ -11,8 +11,11 @@ add_executable(use_git
         usecases/createGitConfiguration.c
         usecases/useGitConfiguration.c
         domain/entities.h
+        domain/usecases.h
         utils/helpers.c
         utils/helpers.h
         environment.h
         environment.h
-        domain/usecases.h)
+        controllers/cli.controller.c
+        controllers/ui-cli.controller.c
+        domain/controllers.h)

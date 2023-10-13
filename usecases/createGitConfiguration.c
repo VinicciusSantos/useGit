@@ -3,21 +3,7 @@
 #include "../utils/helpers.h"
 #include "../environment.h"
 
-void createGitConfiguration() {
-    struct GitConfiguration config;
-
-    printf("Configuration name: ");
-    scanf("%99s", config.configName);
-
-    printf("Username: ");
-    scanf("%99s", config.name);
-
-    printf("Email: ");
-    scanf("%99s", config.email);
-
-    printf("Token: ");
-    scanf("%199s", config.token);
-
+void createGitConfiguration(struct GitConfiguration config) {
     FILE *file = fopen(CONFIG_FILE_PATH, "a");
 
     if (file == NULL) {

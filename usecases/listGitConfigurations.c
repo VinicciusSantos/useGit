@@ -1,25 +1,48 @@
+#include <stdlib.h>
 #include "../domain/entities.h"
 #include "../utils/helpers.h"
 #include "../environment.h"
 
-void listGitConfigurations() {
-    FILE *file = readFile(CONFIG_FILE_PATH);
+struct GitConfiguration *listGitConfigurations() {
+    FILE *file = fopen(CONFIG_FILE_PATH, "r");
+    if (file == NULL) {
+        printf("Error opening the file.\n");
+        return NULL;
+    }
 
-    struct GitConfiguration config;
+    struct GitConfiguration *configs = NULL;
     int configCount = 0;
 
+    configs = (struct GitConfiguration *) malloc((configCount + 1) * sizeof(struct GitConfiguration));
+    if (configs == NULL) {
+        printf("Error allocating memory.\n");
+        return NULL;
+    }
+
     while (fscanf(file, "%99[^,],%99[^,],%99[^,],%199[^\n]\n",
-                  config.configName, config.name, config.email, config.token) == 4) {
+                  configs[configCount].configName, configs[configCount].name,
+                  configs[configCount].email, configs[configCount].token) == 4) {
         configCount++;
-        printf("\n#%i - Config para %s:\n\n", configCount, config.configName);
-        printf("Name: %s\n", config.name);
-        printf("Email: %s\n", config.email);
-        printf("Token: %s\n\n", config.token);
+
+
+        struct GitConfiguration *newConfig = (struct GitConfiguration *) realloc(configs, (configCount + 1) *
+                                                                                          sizeof(struct GitConfiguration));
+
+        if (newConfig == NULL) {
+            printf("Error reallocating memory.\n");
+            free(configs);
+            return NULL;
+        }
+
+        configs = newConfig;
     }
 
     fclose(file);
 
     if (configCount == 0) {
-        printf("No configurations found.\n");
+        free(configs);
+        return NULL;
     }
+
+    return configs;
 }

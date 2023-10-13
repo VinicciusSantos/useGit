@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include "domain/usecases.h"
 #include "utils/helpers.h"
 #include "environment.h"
+#include "domain/controllers.h"
 
 enum MenuOptions {
     LIST_CONFIGURATIONS,
@@ -14,9 +14,9 @@ int main() {
     createFolderIfNotExists(FOLDER_PATH);
 
     struct MenuOption menuItems[] = {
-            {LIST_CONFIGURATIONS,  "List configurations",  listGitConfigurations},
-            {CREATE_CONFIGURATION, "Create configuration", createGitConfiguration},
-            {USE_CONFIGURATION,    "Use configuration",    useGitConfiguration},
+            {LIST_CONFIGURATIONS,  "List configurations",  listGitConfigurationsController},
+            {CREATE_CONFIGURATION, "Create configuration", createGitConfigurationController},
+            {USE_CONFIGURATION,    "Use configuration",    useGitConfigurationController},
             {EXIT,                 "Exit",                 exit}};
 
     int selectedOption;

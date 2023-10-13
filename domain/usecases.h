@@ -1,10 +1,10 @@
 #ifndef USE_GIT_USECASES_H
 #define USE_GIT_USECASES_H
 
-void listGitConfigurations();
+struct GitConfiguration *listGitConfigurations();
 
-void createGitConfiguration();
+void createGitConfiguration(struct GitConfiguration config);
 
-void useGitConfiguration();
+void useGitConfiguration(char *configName);
 
-#endif //USE_GIT_USECASES_H
+#endif
