@@ -18,4 +18,6 @@ add_executable(use_git
         environment.h
         controllers/cli.controller.c
         controllers/ui-cli.controller.c
-        domain/controllers.h)
+        domain/controllers.h
+        controllers/controllers.factory.c
+        controllers/cli.controller.h)

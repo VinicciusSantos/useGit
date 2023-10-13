@@ -1,8 +1,43 @@
 #include <stdio.h>
-#include "../domain/usecases.h"
+#include <stdlib.h>
 #include "../domain/entities.h"
+#include "../utils/helpers.h"
+#include "../domain/usecases.h"
 
-void createGitConfigurationController() {
+enum MenuOptions {
+    LIST_CONFIGURATIONS,
+    CREATE_CONFIGURATION,
+    USE_CONFIGURATION,
+    EXIT
+};
+
+void createGitConfigurationUiCliController();
+
+void listGitConfigurationsUiCliController();
+
+void useGitConfigurationUiCliController();
+
+void initGitConfigurationUiCliController() {
+    struct MenuOption menuItems[] = {
+            {LIST_CONFIGURATIONS,  "List configurations",  listGitConfigurationsUiCliController},
+            {CREATE_CONFIGURATION, "Create configuration", createGitConfigurationUiCliController},
+            {USE_CONFIGURATION,    "Use configuration",    useGitConfigurationUiCliController},
+            {EXIT,                 "Exit",                 exit}};
+
+    int selectedOption;
+    do {
+        selectedOption = buildMenu("Git Credentials Manager", menuItems, 4);
+        if (selectedOption != EXIT) {
+            clearScreen();
+            printHeader(menuItems[selectedOption].label, 60);
+            menuItems[selectedOption].function();
+            pressEnterToContinue();
+        }
+    } while (selectedOption != EXIT);
+
+}
+
+void createGitConfigurationUiCliController() {
     struct GitConfiguration config;
 
     printf("Configuration name: ");
@@ -20,7 +55,7 @@ void createGitConfigurationController() {
     createGitConfiguration(config);
 }
 
-void listGitConfigurationsController() {
+void listGitConfigurationsUiCliController() {
     struct GitConfiguration *configs = listGitConfigurations();
 
     if (configs == NULL) {
@@ -37,7 +72,7 @@ void listGitConfigurationsController() {
     }
 }
 
-void useGitConfigurationController() {
+void useGitConfigurationUiCliController() {
     char inputConfigName[100];
     printf("Which configuration do you want to use? ");
     scanf("%99s", inputConfigName);
