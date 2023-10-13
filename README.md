@@ -15,5 +15,5 @@ git clone https://github.com/VinicciusSantos/useGit.git
 2. Compilar código e executar arquivo
 
 ```bash
-sudo chmod +x execute.sh && ./execute.sh && alias useGit="sudo /useGit/usegit"
+cd useGit && sudo chmod +x execute.sh && ./execute.sh && alias useGit="sudo /useGit/usegit"
 ```
