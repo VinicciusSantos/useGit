@@ -10,14 +10,18 @@ add_executable(use_git
         usecases/listGitConfigurations.c
         usecases/createGitConfiguration.c
         usecases/useGitConfiguration.c
+        usecases/deleteGitConfiguration.c
         domain/entities.h
         domain/usecases.h
+        domain/controllers.h
         utils/helpers.c
         utils/helpers.h
         environment.h
         environment.h
         controllers/cli.controller.c
         controllers/ui-cli.controller.c
-        domain/controllers.h
         controllers/controllers.factory.c
-        controllers/cli.controller.h)
+        controllers/cli.controller.h
+        usecases/deleteGitConfiguration.c
+        config/teste.cu
+        config/database/database.h)
