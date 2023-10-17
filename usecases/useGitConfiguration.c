@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "../domain/entities.h"
 #include "../utils/helpers.h"
 #include "../environment.h"
@@ -16,6 +17,10 @@ void useGitConfiguration(char *configName) {
     char GIT_CREDENTIALS_PATH[100];
 
     char *username = getenv("USER");
+    if (strcmp(username, "root") == 0) {
+        username = getenv("SUDO_USER");
+    }
+
     sprintf(GIT_CONFIG_PATH, "/home/%s/.gitconfig", username);
     sprintf(GIT_CREDENTIALS_PATH, "/home/%s/.git-credentials", username);
 
@@ -26,7 +31,6 @@ void useGitConfiguration(char *configName) {
     FILE *gitcredentialsFile = fopen(GIT_CREDENTIALS_PATH, "w");
 
     if (gitconfigFile == NULL || gitcredentialsFile == NULL) {
-        perror("Error to create configuration file");
         printf("Error to create configuration file: %s\n", GIT_CONFIG_PATH);
         printf("Error to create configuration file: %s\n", GIT_CREDENTIALS_PATH);
         return;
