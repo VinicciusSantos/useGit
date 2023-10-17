@@ -1,19 +1,13 @@
-#include <string.h>
 #include <stdlib.h>
 #include "../domain/entities.h"
 #include "../utils/helpers.h"
 #include "../environment.h"
-
-struct GitConfiguration checkIfConfigExists(FILE *file, char *configName);
+#include "../infrastructure/persistence/repositories.h"
 
 void useGitConfiguration(char *configName) {
-    FILE *file = readFile(CONFIG_FILE_NAME);
+    struct GitConfiguration *config = getOneUserByConfigName(configName);
 
-    struct GitConfiguration config = checkIfConfigExists(file, configName);
-
-    fclose(file);
-
-    if (config.configName[0] == '\0') {
+    if (config->configName[0] == '\0') {
         printf("Configuration not found!\n");
         return;
     }
@@ -21,7 +15,7 @@ void useGitConfiguration(char *configName) {
     char GIT_CONFIG_PATH[100];
     char GIT_CREDENTIALS_PATH[100];
 
-    char *username = getenv("SUDO_USER");
+    char *username = getenv("USER");
     sprintf(GIT_CONFIG_PATH, "/home/%s/.gitconfig", username);
     sprintf(GIT_CREDENTIALS_PATH, "/home/%s/.git-credentials", username);
 
@@ -33,16 +27,18 @@ void useGitConfiguration(char *configName) {
 
     if (gitconfigFile == NULL || gitcredentialsFile == NULL) {
         perror("Error to create configuration file");
+        printf("Error to create configuration file: %s\n", GIT_CONFIG_PATH);
+        printf("Error to create configuration file: %s\n", GIT_CREDENTIALS_PATH);
         return;
     }
 
     fprintf(gitconfigFile, "[user]\n");
-    fprintf(gitconfigFile, "    name = %s\n", config.name);
-    fprintf(gitconfigFile, "    email = %s\n", config.email);
+    fprintf(gitconfigFile, "    name = %s\n", config->name);
+    fprintf(gitconfigFile, "    email = %s\n", config->email);
     fprintf(gitconfigFile, "[credential]\n");
     fprintf(gitconfigFile, "    helper = store\n");
 
-    fprintf(gitcredentialsFile, "https://%s:%s@github.com\n", config.name, config.token);
+    fprintf(gitcredentialsFile, "https://%s:%s@github.com\n", config->name, config->token);
 
     fclose(gitconfigFile);
     fclose(gitcredentialsFile);
@@ -50,15 +46,3 @@ void useGitConfiguration(char *configName) {
     printf("Configuration applied in files '.gitconfig' e '.git-credentials'\n");
 }
 
-struct GitConfiguration checkIfConfigExists(FILE *file, char *configName) {
-    struct GitConfiguration config;
-
-    while (fscanf(file, "%99[^,],%99[^,],%99[^,],%199[^\n]\n",
-                  config.configName, config.name,
-                  config.email, config.token) == 4) {
-        if (strcmp(config.configName, configName) == 0) {
-            return config;
-        }
-    }
-    return config;
-}

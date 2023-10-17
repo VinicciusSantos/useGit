@@ -3,7 +3,7 @@
 
 struct GitConfiguration *listGitConfigurations();
 
-void createGitConfiguration(struct GitConfiguration config);
+void createGitConfiguration(struct GitConfiguration *config);
 
 void useGitConfiguration(char *configName);
 
