@@ -3,6 +3,7 @@
 #include <sqlite3.h>
 #include "../../environment.h"
 #include "database.h"
+#include "../../infrastructure/persistence/repositories.h"
 
 sqlite3 *db;
 
@@ -14,10 +15,9 @@ void openDatabaseConnection() {
     if (rc) {
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         exit(1);
-    } else {
-        fprintf(stderr, "Opened database successfully\n");
     }
     createDefaultTables();
+    createRepositories(db);
 }
 
 sqlite3 *getDatabaseConnection() {
@@ -37,7 +37,5 @@ void createDefaultTables() {
     if (rc != SQLITE_OK) {
         fprintf(stderr, "SQL error: %s\n", errMsg);
         sqlite3_free(errMsg);
-    } else {
-        fprintf(stdout, "Table created successfully\n");
     }
 }
